@@ -3,8 +3,10 @@ package com.cevdetkilickeser.neyicez.data.datasource
 import com.cevdetkilickeser.neyicez.data.entity.CRUDAnswer
 import com.cevdetkilickeser.neyicez.data.entity.Cart
 import com.cevdetkilickeser.neyicez.data.entity.Foods
+import com.cevdetkilickeser.neyicez.data.entity.Orders
 import com.cevdetkilickeser.neyicez.retrofit.FoodsDao
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firestore.v1.StructuredQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -47,11 +49,28 @@ class FoodsDataSource(var fdao:FoodsDao) {
     suspend fun deleteFromFav(sepet_fav_id:Int, kullanici_fav: String) : CRUDAnswer = fdao.deleteFromFav(sepet_fav_id, kullanici_fav)
 
     suspend fun approveOrder(order: List<Cart>) {
-        val data = hashMapOf(
-            "order" to order)
+        try {
+            db.collection("orders")
+                .add(mapOf("order" to order))
+                .await()
+        } catch (e: Exception) {
+            // Hata durumunu ele al
+        }
+    }
 
-        db.collection("orders")
-            .add(data)
+    suspend fun loadOrders(userName: String): List<Orders> {
+        val querySnapshot = db.collection("orders")
+            .whereEqualTo("kullanici_adi", userName)
+            .get()
             .await()
+
+        val orders = mutableListOf<Orders>()
+        for (document in querySnapshot.documents) {
+            val order = document.toObject(Orders::class.java)
+            if (order != null) {
+                orders.add(order)
+            }
+        }
+        return orders
     }
 }

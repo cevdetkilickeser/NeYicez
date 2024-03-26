@@ -17,4 +17,6 @@ class CartRepository (var fds: FoodsDataSource){
 
 
     suspend fun approveOrder(order:List<Cart>) = fds.approveOrder(order)
+
+    suspend fun loadOrders(kullanici_adi: String) = fds.loadOrders(kullanici_adi)
 }
