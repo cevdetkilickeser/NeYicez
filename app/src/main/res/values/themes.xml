@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NeYicez" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryVariant">@color/second</item>
+        <item name="android:statusBarColor">@color/main</item>
+        <item name="android:autoCompleteTextViewStyle">@style/cursorColor</item>
+
+    </style>
+
+    <!-- Cursor Style -->
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor_shape</item>
+    </style>
+
+
+
+</resources>

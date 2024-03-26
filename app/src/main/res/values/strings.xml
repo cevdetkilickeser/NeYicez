@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">NeYicez</string>
+    <string name="default_web_client_id">733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- fragment_log_in -->
+    <string name="login">LOG IN</string>
+    <string name="or">or</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="no_account">No Account Yet?</string>
+    <string name="create_account">Click To Create an Account</string>
+    <string name="required_field">This field required!</string>
+    <string name="login_failed">Please check e-mail and password</string>
+
+    <!-- fragment_sign_up -->
+    <string name="sign_up">SIGN UP</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="name_surname">Name - Surname</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="have_account">Already Have an Account?</string>
+    <string name="go_login">Click To Go Login</string>
+    <string name="signup_success">Congratulations. Please confirm your account with the link sent to your e-mail.</string>
+
+    <!-- fragment_unconfirmed -->
+    <string name="confirm_account">After confirming your account, relogin</string>
+    <string name="logout">LOG OUT</string>
+
+    <!-- fragment_intro -->
+    <string name="skip">SKIP</string>
+    <string name="start">START</string>
+</resources>
