@@ -18,10 +18,10 @@ class OrdersFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentOrdersBinding.inflate(inflater, container, false)
 
-        viewModel.orderList.observe(viewLifecycleOwner){
-            val orderAdapter = OrdersAdapter(requireContext(),it,viewModel)
+        //viewModel.orderList.observe(viewLifecycleOwner){
+        //    val orderAdapter = OrdersAdapter(requireContext(),it,viewModel)
 
-        }
+        //}
 
         return binding.root
     }
@@ -29,8 +29,8 @@ class OrdersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val tempViewModel: OrdersViewModel by viewModels()
-        viewModel = tempViewModel
+        //val tempViewModel: OrdersViewModel by viewModels()
+        //viewModel = tempViewModel
     }
 
 }
