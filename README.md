@@ -1,5 +1,7 @@
+(Note : I continue to develope Favourites and Orders screens. I will update the project.)
+
 # NeYicez (Food Delivery App)
-YemApp is an Android application developed using Kotlin and follows the MVVM (Model-View-ViewModel) architecture. The project utilizes Hilt for dependency injection, Retrofit with coroutines for network requests, Room for local data storage, Glide for image loading, and Firebase Authentication for user authentication.
+NeYicez is an Android application developed using Kotlin and follows the MVVM (Model-View-ViewModel) architecture. The project utilizes Hilt for dependency injection, Retrofit with coroutines for network requests, Room for local data storage, Glide for image loading, and Firebase Authentication for user authentication.
 
 ## The Goal of the Project
 Developing projects using architecture, technologies and libraries that I learned during the course.
