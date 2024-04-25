@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/sign_up"
+        android:text="KAYIT OL"
         android:textColor="@color/main"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -40,7 +40,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/name_surname" />
+            android:hint="İsim - Soyisim" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -63,7 +63,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
+            android:hint="Telefon Numarası"
             android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +88,7 @@
             android:id="@+id/emailSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email"
+            android:hint="E-Posta"
             android:inputType="text|textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +115,7 @@
             android:id="@+id/passwordSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password"
+            android:hint="Parola"
             android:inputType="text|textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,7 +127,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/main"
-        android:text="@string/sign_up"
+        android:text="KAYIT OL"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +176,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="199dp"
+        app:layout_constraintGuide_percent="0.5"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -186,9 +186,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/or"
+        android:text="veya"
         android:textColor="@color/main"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +221,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/have_account"
+        android:text="Zaten Hesabınız Var Mı?"
         android:textColor="@color/main"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -229,17 +229,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <Button
+    <TextView
         android:id="@+id/buttonGoLogin"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/white"
-        android:text="@string/go_login"
+        android:text="Giriş Yapın"
         android:textColor="@color/main"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
