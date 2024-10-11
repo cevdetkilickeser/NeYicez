@@ -1,7 +1,7 @@
 package com.cevdetkilickeser.neyicez.data.repo
 
 import com.cevdetkilickeser.neyicez.data.datasource.FoodsDataSource
-import com.cevdetkilickeser.neyicez.data.entity.Cart
+import com.cevdetkilickeser.neyicez.data.model.Cart
 
 class CartRepository (var fds: FoodsDataSource){
 

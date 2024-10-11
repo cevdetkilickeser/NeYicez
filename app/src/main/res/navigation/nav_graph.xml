@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.cevdetkilickeser.neyicez.ui.fragment.HomeFragment"
+        android:name="com.cevdetkilickeser.neyicez.presentation.ui.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,27 +16,27 @@
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.cevdetkilickeser.neyicez.ui.fragment.CartFragment"
+        android:name="com.cevdetkilickeser.neyicez.presentation.ui.fragment.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/ordersFragment"
-        android:name="com.cevdetkilickeser.neyicez.ui.fragment.OrdersFragment"
+        android:name="com.cevdetkilickeser.neyicez.presentation.ui.fragment.OrdersFragment"
         android:label="fragment_orders"
         tools:layout="@layout/fragment_orders" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.cevdetkilickeser.neyicez.ui.fragment.ProfileFragment"
+        android:name="com.cevdetkilickeser.neyicez.presentation.ui.fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.cevdetkilickeser.neyicez.ui.fragment.DetailFragment"
+        android:name="com.cevdetkilickeser.neyicez.presentation.ui.fragment.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="food"
-            app:argType="com.cevdetkilickeser.neyicez.data.entity.Foods" />
+            app:argType="com.cevdetkilickeser.neyicez.data.model.Foods" />
         <argument
             android:name="rate"
             app:argType="string"
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/favsFragment"
-        android:name="com.cevdetkilickeser.neyicez.ui.fragment.FavsFragment"
+        android:name="com.cevdetkilickeser.neyicez.presentation.ui.fragment.FavsFragment"
         android:label="fragment_favs"
         tools:layout="@layout/fragment_favs" />
 </navigation>

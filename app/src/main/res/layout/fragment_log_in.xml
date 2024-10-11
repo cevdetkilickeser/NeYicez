@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.fragment.LogInFragment">
+    tools:context=".presentation.ui.fragment.LogInFragment">
 
     <TextView
         android:id="@+id/textView2"
