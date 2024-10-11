@@ -5,7 +5,7 @@ import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.data.repo.FavRepository
 import com.cevdetkilickeser.neyicez.data.repo.FoodsRepository
 import com.cevdetkilickeser.neyicez.retrofit.ApiUtils
-import com.cevdetkilickeser.neyicez.retrofit.FoodsDao
+import com.cevdetkilickeser.neyicez.retrofit.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,13 +36,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideFoodsDatasource(fdao:FoodsDao) : FoodsDataSource {
+    fun provideFoodsDatasource(fdao:ApiService) : FoodsDataSource {
         return FoodsDataSource(fdao)
     }
 
     @Provides
     @Singleton
-    fun provideFoodsDao() : FoodsDao {
-        return ApiUtils.getFoodsDao()
+    fun provideFoodsDao() : ApiService {
+        return ApiUtils.apiService()
     }
 }
