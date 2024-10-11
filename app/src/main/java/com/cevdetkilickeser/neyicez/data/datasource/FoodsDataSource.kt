@@ -1,17 +1,16 @@
 package com.cevdetkilickeser.neyicez.data.datasource
 
-import com.cevdetkilickeser.neyicez.data.entity.CRUDAnswer
-import com.cevdetkilickeser.neyicez.data.entity.Cart
-import com.cevdetkilickeser.neyicez.data.entity.Foods
-import com.cevdetkilickeser.neyicez.data.entity.Orders
-import com.cevdetkilickeser.neyicez.retrofit.FoodsDao
+import com.cevdetkilickeser.neyicez.data.model.CRUDAnswer
+import com.cevdetkilickeser.neyicez.data.model.Cart
+import com.cevdetkilickeser.neyicez.data.model.Foods
+import com.cevdetkilickeser.neyicez.data.model.Orders
+import com.cevdetkilickeser.neyicez.retrofit.ApiService
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firestore.v1.StructuredQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class FoodsDataSource(var fdao:FoodsDao) {
+class FoodsDataSource(var fdao:ApiService) {
 
     val db = FirebaseFirestore.getInstance()
 
@@ -34,19 +33,6 @@ class FoodsDataSource(var fdao:FoodsDao) {
     suspend fun deleteFromCart(sepet_yemek_id:Int, kullanici_adi: String) : CRUDAnswer = fdao.deleteFromCart(sepet_yemek_id, kullanici_adi)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    suspend fun loadFav(kullanici_fav: String) : List<Cart> =
-        withContext(Dispatchers.IO){
-            return@withContext fdao.loadFav(kullanici_fav).sepet_yemekler
-        }
-
-    suspend fun addToFav (yemek_adi:String,
-                          yemek_resim_adi:String,
-                          yemek_fiyat:Int,
-                          yemek_fav_adet:Int,
-                          kullanici_fav:String) : CRUDAnswer = fdao.addToFav(yemek_adi,yemek_resim_adi,yemek_fiyat,yemek_fav_adet,kullanici_fav)
-
-    suspend fun deleteFromFav(sepet_fav_id:Int, kullanici_fav: String) : CRUDAnswer = fdao.deleteFromFav(sepet_fav_id, kullanici_fav)
 
     suspend fun approveOrder(order: List<Cart>) {
         try {
