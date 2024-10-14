@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
+import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,9 +12,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CartViewModel @Inject constructor(var crepo : CartRepository) : ViewModel() {
+class CartViewModel @Inject constructor(
+    authService: AuthService,
+    private val cartRepo: CartRepository
+) : ViewModel() {
 
-    var kullanici_adi = com.cevdetkilickeser.neyicez.utils.UserInfo.currentUser!!
+    private var userName = authService.auth.currentUser?.email.toString()
     var cartList = MutableLiveData<List<Cart>>()
     var totalPrice = MutableLiveData("₺ 0")
 
@@ -21,30 +25,30 @@ class CartViewModel @Inject constructor(var crepo : CartRepository) : ViewModel(
         loadCart()
     }
 
-    fun loadCart(){
+    fun loadCart() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                cartList.value = crepo.loadCart(kullanici_adi)
-                calculateTotalPrica(cartList.value!!)
-            }catch (e:Exception) {
+                cartList.value = cartRepo.loadCart(userName)
+                calculateTotalPrice(cartList.value!!)
+            } catch (e: Exception) {
                 totalPrice.value = "₺ 0"
             }
         }
     }
 
-    fun deleteFromCart(yemek_sepet_id:Int){
+    fun deleteFromCart(yemek_sepet_id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
-            if (cartList.value!!.size == 1){
-                crepo.deleteFromCart(yemek_sepet_id,kullanici_adi)
+            if (cartList.value!!.size == 1) {
+                cartRepo.deleteFromCart(yemek_sepet_id, userName)
                 cartList.value = emptyList()
-            }else{
-                crepo.deleteFromCart(yemek_sepet_id,kullanici_adi)
+            } else {
+                cartRepo.deleteFromCart(yemek_sepet_id, userName)
             }
             loadCart()
         }
     }
 
-    fun calculateTotalPrica(cartList:List<Cart>){
+    private fun calculateTotalPrice(cartList: List<Cart>) {
         var totalPrc = 0
         CoroutineScope(Dispatchers.Main).launch {
             cartList.forEach {
@@ -54,20 +58,19 @@ class CartViewModel @Inject constructor(var crepo : CartRepository) : ViewModel(
         }
     }
 
-    fun approveOrder(){
-            CoroutineScope(Dispatchers.Main).launch {
-                val approveList = cartList.value
-                val orderList = ArrayList<Cart>()
-                if (approveList.isNullOrEmpty()){}
-                else{
-                    approveList.forEach {
-                        orderList.add(it)
-                        crepo.deleteFromCart(it.sepet_yemek_id,kullanici_adi)
-                    }
-                    crepo.approveOrder(orderList)
-                    cartList.value = emptyList()
-                    totalPrice.value = "₺ 0"
+    fun approveOrder() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val approveList = cartList.value
+            val orderList = ArrayList<Cart>()
+            if (!approveList.isNullOrEmpty()) {
+                approveList.forEach {
+                    orderList.add(it)
+                    cartRepo.deleteFromCart(it.sepet_yemek_id, userName)
                 }
+                cartRepo.approveOrder(orderList)
+                cartList.value = emptyList()
+                totalPrice.value = "₺ 0"
+            }
         }
     }
 
