@@ -2,10 +2,12 @@ package com.cevdetkilickeser.neyicez.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.model.Foods
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.data.repo.FoodsRepository
+import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,43 +15,48 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(val frepo:FoodsRepository,
-                                        val crepo:CartRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val foodRepo: FoodsRepository,
+    private val cartRepo: CartRepository,
+    authService: AuthService
+) : ViewModel() {
 
-    var kullanici_adi = com.cevdetkilickeser.neyicez.utils.UserInfo.currentUser!!
-    val foodsList = MutableLiveData<List<Foods>>()
+    private var userName = authService.auth.currentUser!!.email.toString()
+    private val foodsList = MutableLiveData<List<Foods>>()
     val filteredFoodsList = MutableLiveData<List<Foods>>()
 
     init {
         loadFoods()
     }
 
-    fun loadFoods(){
-        CoroutineScope(Dispatchers.Main).launch {
-            foodsList.value = frepo.loadFoods()
+    private fun loadFoods() {
+        viewModelScope.launch {
+            foodsList.value = foodRepo.loadFoods()
             filteredFoodsList.value = foodsList.value
         }
     }
 
-    fun addToCart(yemek_adi:String,yemek_resim_adi:String,yemek_fiyat:Int){
+    fun addToCart(foodName: String, footPicture: String, foodPrice: Int) {
         var existingItem: Cart? = null
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val cartFoods = crepo.loadCart(kullanici_adi) as ArrayList<Cart>
-                existingItem = cartFoods.find { it.yemek_adi == yemek_adi }
-            }catch (_:Exception){}
+                val cartFoods = cartRepo.loadCart(userName) as ArrayList<Cart>
+                existingItem = cartFoods.find { it.yemek_adi == foodName }
+            } catch (_: Exception) {
+            }
             if (existingItem != null) {
                 val newQuantity = existingItem!!.yemek_siparis_adet + 1
-                crepo.deleteFromCart(existingItem!!.sepet_yemek_id, kullanici_adi)
-                crepo.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, newQuantity, kullanici_adi)
+                cartRepo.deleteFromCart(existingItem!!.sepet_yemek_id, userName)
+                cartRepo.addToCart(foodName, footPicture, foodPrice, newQuantity, userName)
             } else {
-                crepo.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, 1, kullanici_adi)
+                cartRepo.addToCart(foodName, footPicture, foodPrice, 1, userName)
             }
         }
     }
 
     fun searchFoods(query: String) {
-        filteredFoodsList.value = foodsList.value?.filter { it.yemek_adi.contains(query, ignoreCase = true) }
-            ?: listOf()
+        filteredFoodsList.value =
+            foodsList.value?.filter { it.yemek_adi.contains(query, ignoreCase = true) }
+                ?: listOf()
     }
 }
