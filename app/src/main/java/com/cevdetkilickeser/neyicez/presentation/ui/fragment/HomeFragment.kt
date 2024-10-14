@@ -10,8 +10,7 @@ import androidx.fragment.app.viewModels
 import com.cevdetkilickeser.neyicez.databinding.FragmentHomeBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.FoodsAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.HomeViewModel
-import com.cevdetkilickeser.neyicez.utils.UserInfo
-import com.google.firebase.auth.FirebaseAuth
+import com.cevdetkilickeser.neyicez.utils.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,14 +18,19 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
-    private lateinit var auth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         viewModel.filteredFoodsList.observe(viewLifecycleOwner) { filteredFoods ->
-            val homeAdapter = FoodsAdapter(viewModel)
-            homeAdapter.submitList(filteredFoods)
+            val homeAdapter = FoodsAdapter(viewModel, filteredFoods) {
+                val action = HomeFragmentDirections.homeToDetail(it)
+                navigate(binding.root, action)
+            }
             binding.rvHome.adapter = homeAdapter
         }
 
@@ -46,9 +50,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
-        UserInfo.currentUser = auth.currentUser!!.email.toString()
 
         val tempViewModel: HomeViewModel by viewModels()
         viewModel = tempViewModel
