@@ -9,16 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.cevdetkilickeser.neyicez.R
 import com.cevdetkilickeser.neyicez.databinding.FragmentUnconfirmedBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.cevdetkilickeser.neyicez.domain.AuthService
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class UnconfirmedFragment : Fragment() {
 
     private lateinit var binding: FragmentUnconfirmedBinding
-    private lateinit var auth: FirebaseAuth
+    @Inject
+    lateinit var authService: AuthService
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUnconfirmedBinding.inflate(inflater, container, false)
-        auth = FirebaseAuth.getInstance()
 
         binding.buttonLogoutUnc.setOnClickListener {
             onClickButtonLogout(it)
@@ -36,7 +39,7 @@ class UnconfirmedFragment : Fragment() {
     }
 
     private fun onClickButtonLogout(view: View){
-        auth.signOut()
+        authService.auth.signOut()
         Navigation.findNavController(view).navigate(R.id.unconfirmedToLogIn)
     }
 
