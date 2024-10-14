@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
     private val _email = MutableLiveData<String>()
     private val _password = MutableLiveData<String>()
 
-    private val _isLoginButtonEnabled = MediatorLiveData<Boolean>().apply {
+    private val _isLoginButtonEnabled = MediatorLiveData(false).apply {
         addSource(_email) { value = shouldEnableButton() }
         addSource(_password) { value = shouldEnableButton() }
     }
@@ -28,10 +27,6 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
 
     private var _isEmailVerified = MutableLiveData<Boolean>()
     val isEmailVerified: LiveData<Boolean> = _isEmailVerified
-
-    init {
-        _isLoginButtonEnabled.value = false
-    }
 
     fun onEmailChanged(email: String) {
         _email.value = email
@@ -54,8 +49,8 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
                         _isLogin.value = true
                     }
                 }.addOnFailureListener {
-                _isLogin.value = false
-            }
+                    _isLogin.value = false
+                }
         }
     }
 
