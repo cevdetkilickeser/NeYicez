@@ -20,7 +20,6 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var viewModel: DetailViewModel
     private lateinit var food: Foods
-    private lateinit var rate: String
     private var qty = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,12 +65,10 @@ class DetailFragment : Fragment() {
 
     private fun loadDetailPage(){
         val bundle:DetailFragmentArgs by navArgs()
-        rate = bundle.rate
         food = bundle.food
         binding.checkBoxFavDetail.isChecked = viewModel.checkFav(food.yemek_adi)
 
         Glide.with(requireContext()).load("http://kasimadalan.pe.hu/yemekler/resimler/${food.yemek_resim_adi}").into(binding.imageViewDetail)
-        binding.ratingBarDetail.rating = rate.toFloat()
         binding.textViewNameDetail.text = food.yemek_adi
         binding.textViewPriceDetail.text = "₺ ${food.yemek_fiyat}"
         binding.textViewQtyDetail.text = qty.toString()
