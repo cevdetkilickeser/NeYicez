@@ -9,5 +9,5 @@ data class Cart (
     @SerializedName ("yemek_resim_adi") val foodImageName: String,
     @SerializedName ("yemek_fiyat") val foodPrice: Int,
     @SerializedName ("yemek_siparis_adet") val foodOrderQuantity: Int,
-    @SerializedName ("kullanici_adi") val userName: String
+    @SerializedName ("kullanici_adi") val username: String
 ) : Serializable

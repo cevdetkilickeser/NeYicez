@@ -17,7 +17,7 @@ class CartViewModel @Inject constructor(
     private val cartRepo: CartRepository
 ) : ViewModel() {
 
-    private var userName = authService.auth.currentUser?.email.toString()
+    private var username = authService.auth.currentUser?.email.toString()
     var cartList = MutableLiveData<List<Cart>>()
     var totalPrice = MutableLiveData("₺ 0")
 
@@ -28,7 +28,7 @@ class CartViewModel @Inject constructor(
     fun loadCart() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                cartList.value = cartRepo.loadCart(userName)
+                cartList.value = cartRepo.loadCart(username)
                 calculateTotalPrice(cartList.value!!)
             } catch (e: Exception) {
                 totalPrice.value = "₺ 0"
@@ -39,10 +39,10 @@ class CartViewModel @Inject constructor(
     fun deleteFromCart(cartFoodId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             if (cartList.value!!.size == 1) {
-                cartRepo.deleteFromCart(cartFoodId, userName)
+                cartRepo.deleteFromCart(cartFoodId, username)
                 cartList.value = emptyList()
             } else {
-                cartRepo.deleteFromCart(cartFoodId, userName)
+                cartRepo.deleteFromCart(cartFoodId, username)
             }
             loadCart()
         }
@@ -65,7 +65,7 @@ class CartViewModel @Inject constructor(
             if (!approveList.isNullOrEmpty()) {
                 approveList.forEach {
                     orderList.add(it)
-                    cartRepo.deleteFromCart(it.cartFoodId, userName)
+                    cartRepo.deleteFromCart(it.cartFoodId, username)
                 }
                 cartRepo.approveOrder(orderList)
                 cartList.value = emptyList()

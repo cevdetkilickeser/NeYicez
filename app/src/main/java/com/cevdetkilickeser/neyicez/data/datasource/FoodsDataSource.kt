@@ -19,18 +19,18 @@ class FoodsDataSource(private var apiService:ApiService) {
             return@withContext apiService.loadFoods().foods
         }
 
-    suspend fun loadCart(userName: String) : List<Cart> =
+    suspend fun loadCart(username: String) : List<Cart> =
         withContext(Dispatchers.IO){
-            return@withContext apiService.loadCart(userName).cartFoods
+            return@withContext apiService.loadCart(username).cartFoods
         }
 
     suspend fun addToCard(foodName:String,
                           foodImageName:String,
                           foodPrice:Int,
                           foodOrderQuantity:Int,
-                          userName:String) : CRUDAnswer = apiService.addToCart(foodName,foodImageName,foodPrice,foodOrderQuantity,userName)
+                          username:String) : CRUDAnswer = apiService.addToCart(foodName,foodImageName,foodPrice,foodOrderQuantity,username)
 
-    suspend fun deleteFromCart(cartFoodId:Int, userName: String) : CRUDAnswer = apiService.deleteFromCart(cartFoodId, userName)
+    suspend fun deleteFromCart(cartFoodId:Int, username: String) : CRUDAnswer = apiService.deleteFromCart(cartFoodId, username)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,9 +44,9 @@ class FoodsDataSource(private var apiService:ApiService) {
         }
     }
 
-    suspend fun loadOrders(userName: String): List<Orders> {
+    suspend fun loadOrders(username: String): List<Orders> {
         val querySnapshot = db.collection("orders")
-            .whereEqualTo("kullanici_adi", userName)
+            .whereEqualTo("kullanici_adi", username)
             .get()
             .await()
 

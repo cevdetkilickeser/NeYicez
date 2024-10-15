@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
     authService: AuthService
 ) : ViewModel() {
 
-    private var userName = authService.auth.currentUser!!.email.toString()
+    private var username = authService.auth.currentUser!!.email.toString()
     private val foodList = MutableLiveData<List<Food>>()
     val filteredFoodList = MutableLiveData<List<Food>>()
 
@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     fun addToCart(food: Food) {
         viewModelScope.launch {
-            cartRepo.addToCart(food, 1, userName)
+            cartRepo.addToCart(food, 1, username)
         }
     }
 

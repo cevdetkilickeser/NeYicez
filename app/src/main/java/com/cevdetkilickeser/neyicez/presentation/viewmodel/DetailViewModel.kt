@@ -17,7 +17,7 @@ class DetailViewModel @Inject constructor(
     private var cartRepo: CartRepository
 ) : ViewModel() {
 
-    private var userName = authService.auth.currentUser?.email.toString()
+    private var username = authService.auth.currentUser?.email.toString()
 
     private var _qty = MutableLiveData(1)
     var qty: LiveData<Int> = _qty
@@ -32,7 +32,7 @@ class DetailViewModel @Inject constructor(
 
     fun addToCart(food: Food, yemek_siparis_adet: Int) {
         viewModelScope.launch {
-            cartRepo.addToCart(food, yemek_siparis_adet, userName)
+            cartRepo.addToCart(food, yemek_siparis_adet, username)
         }
     }
 }
