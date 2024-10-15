@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
 
     fun searchFoods(query: String) {
         filteredFoodList.value =
-            foodList.value?.filter { it.yemek_adi.contains(query, ignoreCase = true) }
+            foodList.value?.filter { it.foodName.contains(query, ignoreCase = true) }
                 ?: listOf()
     }
 }

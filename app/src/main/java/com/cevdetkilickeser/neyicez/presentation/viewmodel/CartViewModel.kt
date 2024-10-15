@@ -36,13 +36,13 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun deleteFromCart(yemek_sepet_id: Int) {
+    fun deleteFromCart(cartFoodId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             if (cartList.value!!.size == 1) {
-                cartRepo.deleteFromCart(yemek_sepet_id, userName)
+                cartRepo.deleteFromCart(cartFoodId, userName)
                 cartList.value = emptyList()
             } else {
-                cartRepo.deleteFromCart(yemek_sepet_id, userName)
+                cartRepo.deleteFromCart(cartFoodId, userName)
             }
             loadCart()
         }
@@ -52,7 +52,7 @@ class CartViewModel @Inject constructor(
         var totalPrc = 0
         CoroutineScope(Dispatchers.Main).launch {
             cartList.forEach {
-                totalPrc += (it.yemek_siparis_adet * it.yemek_fiyat)
+                totalPrc += (it.foodOrderQuantity * it.foodPrice)
             }
             totalPrice.value = "₺ $totalPrc"
         }
@@ -65,7 +65,7 @@ class CartViewModel @Inject constructor(
             if (!approveList.isNullOrEmpty()) {
                 approveList.forEach {
                     orderList.add(it)
-                    cartRepo.deleteFromCart(it.sepet_yemek_id, userName)
+                    cartRepo.deleteFromCart(it.cartFoodId, userName)
                 }
                 cartRepo.approveOrder(orderList)
                 cartList.value = emptyList()

@@ -11,10 +11,10 @@ class FoodsViewHolder(val binding: FoodsCardBinding) : RecyclerView.ViewHolder(b
     inline fun bind(food: Food, crossinline onFoodClickListener: (Food) -> Unit, crossinline onAddToCartClickListener: (Food) -> Unit) {
         with(binding) {
             Glide.with(root.context)
-                .load("http://kasimadalan.pe.hu/yemekler/resimler/${food.yemek_resim_adi}")
+                .load("http://kasimadalan.pe.hu/yemekler/resimler/${food.foodImageName}")
                 .into(imageViewFoodsCard)
-            textViewNameFoodsCard.text = food.yemek_adi
-            textViewPriceFoodsCard.text = root.context.getString(R.string.price_text, food.yemek_fiyat)
+            textViewNameFoodsCard.text = food.foodName
+            textViewPriceFoodsCard.text = root.context.getString(R.string.price_text, food.foodPrice)
             buttonAddFoodsCard.setOnClickListener {
                 onAddToCartClickListener.invoke(food)
             }

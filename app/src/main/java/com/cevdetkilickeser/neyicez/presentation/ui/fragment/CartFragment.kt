@@ -17,21 +17,29 @@ class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
     private lateinit var viewModel: CartViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentCartBinding.inflate(inflater, container, false)
 
-        viewModel.cartList.observe(viewLifecycleOwner){
-            val cartAdapter = CartAdapter(requireContext(),it,viewModel)
+        viewModel.cartList.observe(viewLifecycleOwner) {
+            val cartAdapter = CartAdapter(it, viewModel)
             binding.rvCart.adapter = cartAdapter
         }
 
-        viewModel.totalPrice.observe(viewLifecycleOwner){
+        viewModel.totalPrice.observe(viewLifecycleOwner) {
             binding.textViewTotalPrcCart.text = it
         }
 
         binding.buttonApproveOrder.setOnClickListener {
             approveOrder()
-            Snackbar.make(it,"Siparişiniz alındı. Siparişler menüsünden takip edebilirsiniz.",Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                it,
+                "Siparişiniz alındı. Siparişler menüsünden takip edebilirsiniz.",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
 
         return binding.root
@@ -49,7 +57,7 @@ class CartFragment : Fragment() {
         viewModel.loadCart()
     }
 
-    private fun approveOrder(){
+    private fun approveOrder() {
         viewModel.approveOrder()
     }
 }

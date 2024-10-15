@@ -10,27 +10,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class FoodsDataSource(var fdao:ApiService) {
+class FoodsDataSource(private var apiService:ApiService) {
 
     val db = FirebaseFirestore.getInstance()
 
     suspend fun loadFoods() : List<Food> =
         withContext(Dispatchers.IO){
-            return@withContext fdao.loadFoods().yemekler
+            return@withContext apiService.loadFoods().foods
         }
 
-    suspend fun loadCart(kullanici_adi: String) : List<Cart> =
+    suspend fun loadCart(userName: String) : List<Cart> =
         withContext(Dispatchers.IO){
-            return@withContext fdao.loadCart(kullanici_adi).sepet_yemekler
+            return@withContext apiService.loadCart(userName).cartFoods
         }
 
-    suspend fun addToCard(yemek_adi:String,
-                          yemek_resim_adi:String,
-                          yemek_fiyat:Int,
-                          yemek_siparis_adet:Int,
-                          kullanici_adi:String) : CRUDAnswer = fdao.addToCart(yemek_adi,yemek_resim_adi,yemek_fiyat,yemek_siparis_adet,kullanici_adi)
+    suspend fun addToCard(foodName:String,
+                          foodImageName:String,
+                          foodPrice:Int,
+                          foodOrderQuantity:Int,
+                          userName:String) : CRUDAnswer = apiService.addToCart(foodName,foodImageName,foodPrice,foodOrderQuantity,userName)
 
-    suspend fun deleteFromCart(sepet_yemek_id:Int, kullanici_adi: String) : CRUDAnswer = fdao.deleteFromCart(sepet_yemek_id, kullanici_adi)
+    suspend fun deleteFromCart(cartFoodId:Int, userName: String) : CRUDAnswer = apiService.deleteFromCart(cartFoodId, userName)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

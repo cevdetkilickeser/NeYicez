@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavsViewModel @Inject constructor(var crepo:CartRepository, var favrepo: FavRepository) : ViewModel() {
+class FavsViewModel @Inject constructor(var cartRepo:CartRepository, var favrepo: FavRepository) : ViewModel() {
 
     var kullanici_adi = com.cevdetkilickeser.neyicez.utils.UserInfo.currentUser!!
     var fkullanici_adi = "f$kullanici_adi"
@@ -32,23 +32,6 @@ class FavsViewModel @Inject constructor(var crepo:CartRepository, var favrepo: F
             try {
 //                favList.value = favrepo.loadFav(kullanici_fav)
             }catch (_:Exception){}
-        }
-    }
-
-    fun addToCart(yemek_adi:String,yemek_resim_adi:String,yemek_fiyat:Int,yemek_siparis_adet:Int){
-        var existingItem: Cart? = null
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val cartFoods = crepo.loadCart(kullanici_adi)
-                existingItem = cartFoods.find { it.yemek_adi == yemek_adi }
-            }catch (_:Exception){}
-            if (existingItem != null) {
-                val newQuantity = existingItem!!.yemek_siparis_adet + yemek_siparis_adet
-                crepo.deleteFromCart(existingItem!!.sepet_yemek_id, kullanici_adi)
-                crepo.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, newQuantity, kullanici_adi)
-            } else {
-                crepo.addToCart(yemek_adi, yemek_resim_adi, yemek_fiyat, yemek_siparis_adet, kullanici_adi)
-            }
         }
     }
 }

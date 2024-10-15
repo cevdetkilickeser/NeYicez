@@ -48,7 +48,7 @@ class DetailFragment : Fragment() {
         viewModel.qty.observe(viewLifecycleOwner) { qty ->
             with(binding) {
                 textViewQtyDetail.text = viewModel.qty.value.toString()
-                textViewTotalPrcDetail.text = getString(R.string.price_text, food.yemek_fiyat * qty)
+                textViewTotalPrcDetail.text = getString(R.string.price_text, food.foodPrice * qty)
             }
         }
     }
@@ -78,11 +78,10 @@ class DetailFragment : Fragment() {
 
         with(binding) {
             Glide.with(requireContext())
-                .load("http://kasimadalan.pe.hu/yemekler/resimler/${food.yemek_resim_adi}")
+                .load("http://kasimadalan.pe.hu/yemekler/resimler/${food.foodImageName}")
                 .into(imageViewDetail)
-            textViewNameDetail.text = food.yemek_adi
-            textViewPriceDetail.text = getString(R.string.price_text, food.yemek_fiyat)
-            textViewTotalPrcDetail.text = getString(R.string.price_text, food.yemek_fiyat)
+            textViewNameDetail.text = food.foodName
+            textViewPriceDetail.text = getString(R.string.price_text, food.foodPrice)
         }
     }
 }
