@@ -9,8 +9,6 @@ import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.data.repo.FoodsRepository
 import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,7 +36,7 @@ class HomeViewModel @Inject constructor(
 
     fun addToCart(foodName: String, footPicture: String, foodPrice: Int) {
         var existingItem: Cart? = null
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch {
             try {
                 val cartFoods = cartRepo.loadCart(userName) as ArrayList<Cart>
                 existingItem = cartFoods.find { it.yemek_adi == foodName }
