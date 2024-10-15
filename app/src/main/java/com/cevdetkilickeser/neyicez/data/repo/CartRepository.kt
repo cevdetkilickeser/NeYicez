@@ -3,8 +3,9 @@ package com.cevdetkilickeser.neyicez.data.repo
 import com.cevdetkilickeser.neyicez.data.datasource.FoodsDataSource
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.model.Food
+import javax.inject.Inject
 
-class CartRepository (private var dataSource: FoodsDataSource){
+class CartRepository  @Inject constructor (private var dataSource: FoodsDataSource){
 
     suspend fun loadCart(username: String) : List<Cart> = dataSource.loadCart(username)
 
