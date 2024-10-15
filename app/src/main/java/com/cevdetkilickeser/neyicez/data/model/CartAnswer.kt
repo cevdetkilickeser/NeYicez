@@ -1,4 +1,8 @@
 package com.cevdetkilickeser.neyicez.data.model
 
-data class CartAnswer(val sepet_yemekler: List<Cart>,
-                      val success: Int)
+import com.google.gson.annotations.SerializedName
+
+data class CartAnswer(
+    @SerializedName ("sepet_yemekler") val cartFoods: List<Cart>,
+    val success: Int
+)

@@ -1,8 +1,11 @@
 package com.cevdetkilickeser.neyicez.data.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Food(val yemek_id: Int,
-                val yemek_adi: String,
-                val yemek_fiyat: Int,
-                val yemek_resim_adi: String) : Serializable
+data class Food(
+    @SerializedName ("yemek_id") val foodId: Int,
+    @SerializedName ("yemek_adi") val foodName: String,
+    @SerializedName ("yemek_resim_adi") val foodImageName: String,
+    @SerializedName ("yemek_fiyat") val foodPrice: Int
+) : Serializable
