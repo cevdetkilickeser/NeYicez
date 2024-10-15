@@ -3,7 +3,6 @@ package com.cevdetkilickeser.neyicez.presentation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.data.repo.FoodsRepository
@@ -34,21 +33,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun addToCart(foodName: String, footPicture: String, foodPrice: Int) {
-        var existingItem: Cart? = null
+    fun addToCart(food: Food) {
         viewModelScope.launch {
-            try {
-                val cartFoods = cartRepo.loadCart(userName) as ArrayList<Cart>
-                existingItem = cartFoods.find { it.yemek_adi == foodName }
-            } catch (_: Exception) {
-            }
-            if (existingItem != null) {
-                val newQuantity = existingItem!!.yemek_siparis_adet + 1
-                cartRepo.deleteFromCart(existingItem!!.sepet_yemek_id, userName)
-                cartRepo.addToCart(foodName, footPicture, foodPrice, newQuantity, userName)
-            } else {
-                cartRepo.addToCart(foodName, footPicture, foodPrice, 1, userName)
-            }
+            cartRepo.addToCart(food, 1, userName)
         }
     }
 
