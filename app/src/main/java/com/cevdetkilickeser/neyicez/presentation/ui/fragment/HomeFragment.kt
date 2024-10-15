@@ -59,6 +59,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun onAddToCartClickListener(food: Food) {
-        viewModel.addToCart(food.yemek_adi, food.yemek_resim_adi, food.yemek_fiyat)
+        viewModel.addToCart(food)
     }
 }
