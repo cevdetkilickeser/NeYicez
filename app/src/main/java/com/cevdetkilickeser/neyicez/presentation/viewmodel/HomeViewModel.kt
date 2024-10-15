@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.data.model.Cart
-import com.cevdetkilickeser.neyicez.data.model.Foods
+import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.data.repo.FoodsRepository
 import com.cevdetkilickeser.neyicez.domain.AuthService
@@ -20,8 +20,8 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var userName = authService.auth.currentUser!!.email.toString()
-    private val foodsList = MutableLiveData<List<Foods>>()
-    val filteredFoodsList = MutableLiveData<List<Foods>>()
+    private val foodList = MutableLiveData<List<Food>>()
+    val filteredFoodList = MutableLiveData<List<Food>>()
 
     init {
         loadFoods()
@@ -29,8 +29,8 @@ class HomeViewModel @Inject constructor(
 
     private fun loadFoods() {
         viewModelScope.launch {
-            foodsList.value = foodRepo.loadFoods()
-            filteredFoodsList.value = foodsList.value
+            foodList.value = foodRepo.loadFoods()
+            filteredFoodList.value = foodList.value
         }
     }
 
@@ -53,8 +53,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun searchFoods(query: String) {
-        filteredFoodsList.value =
-            foodsList.value?.filter { it.yemek_adi.contains(query, ignoreCase = true) }
+        filteredFoodList.value =
+            foodList.value?.filter { it.yemek_adi.contains(query, ignoreCase = true) }
                 ?: listOf()
     }
 }

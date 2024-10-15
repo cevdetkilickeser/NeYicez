@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="food"
-            app:argType="com.cevdetkilickeser.neyicez.data.model.Foods" />
+            app:argType="com.cevdetkilickeser.neyicez.data.model.Food" />
         <argument
             android:name="rate"
             app:argType="string"

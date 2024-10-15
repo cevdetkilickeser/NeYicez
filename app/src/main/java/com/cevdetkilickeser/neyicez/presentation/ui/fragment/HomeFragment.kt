@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.cevdetkilickeser.neyicez.data.model.Foods
+import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.databinding.FragmentHomeBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.FoodsAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.HomeViewModel
@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        viewModel.filteredFoodsList.observe(viewLifecycleOwner) { filteredFoods ->
+        viewModel.filteredFoodList.observe(viewLifecycleOwner) { filteredFoods ->
             val homeAdapter = FoodsAdapter(filteredFoods, ::onFoodClickListener, ::onAddToCartClickListener)
             binding.rvHome.adapter = homeAdapter
         }
@@ -53,12 +53,12 @@ class HomeFragment : Fragment() {
         viewModel = tempViewModel
     }
 
-    private fun onFoodClickListener(food: Foods) {
+    private fun onFoodClickListener(food: Food) {
         val action = HomeFragmentDirections.homeToDetail(food)
         navigate(binding.root, action)
     }
 
-    private fun onAddToCartClickListener(food: Foods) {
+    private fun onAddToCartClickListener(food: Food) {
         viewModel.addToCart(food.yemek_adi, food.yemek_resim_adi, food.yemek_fiyat)
     }
 }

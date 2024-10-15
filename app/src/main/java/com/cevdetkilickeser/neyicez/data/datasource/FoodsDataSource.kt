@@ -2,7 +2,7 @@ package com.cevdetkilickeser.neyicez.data.datasource
 
 import com.cevdetkilickeser.neyicez.data.model.CRUDAnswer
 import com.cevdetkilickeser.neyicez.data.model.Cart
-import com.cevdetkilickeser.neyicez.data.model.Foods
+import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.data.model.Orders
 import com.cevdetkilickeser.neyicez.retrofit.ApiService
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,7 +14,7 @@ class FoodsDataSource(var fdao:ApiService) {
 
     val db = FirebaseFirestore.getInstance()
 
-    suspend fun loadFoods() : List<Foods> =
+    suspend fun loadFoods() : List<Food> =
         withContext(Dispatchers.IO){
             return@withContext fdao.loadFoods().yemekler
         }
