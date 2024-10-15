@@ -3,55 +3,50 @@ package com.cevdetkilickeser.neyicez.data.repo
 import com.cevdetkilickeser.neyicez.data.datasource.FoodsDataSource
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.model.Food
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class CartRepository (var fds: FoodsDataSource){
+class CartRepository (private var dataSource: FoodsDataSource){
 
-    suspend fun loadCart(kullanici_adi: String) : List<Cart> = fds.loadCart(kullanici_adi)
+    suspend fun loadCart(userName: String) : List<Cart> = dataSource.loadCart(userName)
 
-    suspend fun deleteFromCart(sepet_yemek_id:Int,kullanici_adi: String) = fds.deleteFromCart(sepet_yemek_id,kullanici_adi)
+    suspend fun deleteFromCart(cartFoodId:Int, userName: String) = dataSource.deleteFromCart(cartFoodId,userName)
 
 
-    suspend fun approveOrder(order:List<Cart>) = fds.approveOrder(order)
+    suspend fun approveOrder(order:List<Cart>) = dataSource.approveOrder(order)
 
-    suspend fun loadOrders(kullanici_adi: String) = fds.loadOrders(kullanici_adi)
+    suspend fun loadOrders(userName: String) = dataSource.loadOrders(userName)
 
-    suspend fun addToCart(food: Food, yemek_siparis_adet: Int, userName: String) {
+    suspend fun addToCart(food: Food, foodOrderQuantity: Int, userName: String) {
         var existingItem: Cart? = null
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val cartFoods = loadCart(userName)
-                existingItem = cartFoods.find { it.yemek_adi == food.yemek_adi }
-            } catch (_: Exception) {}
+        try {
+            val cartFoods = loadCart(userName)
+            existingItem = cartFoods.find { it.foodName == food.foodName }
+        } catch (_: Exception) {}
 
-            existingItem?.let {
-                addToCartExistFood(food, yemek_siparis_adet, userName)
-            } ?: run {
-                addToCartNewFood(food, yemek_siparis_adet, existingItem!!, userName)
-            }
+        existingItem?.let {
+            addToCartExistFood(food, foodOrderQuantity, existingItem, userName)
+        } ?: run {
+            addToCartNewFood(food, foodOrderQuantity, userName)
         }
     }
 
-    private suspend fun addToCartNewFood(food: Food, yemek_siparis_adet: Int, existingItem: Cart, userName: String) {
-        val newQuantity = existingItem.yemek_siparis_adet + yemek_siparis_adet
-        deleteFromCart(existingItem.sepet_yemek_id, userName)
-        fds.addToCard(
-            food.yemek_adi,
-            food.yemek_resim_adi,
-            food.yemek_fiyat,
+    private suspend fun addToCartExistFood(food: Food, foodOrderQuantity: Int, existingItem: Cart, userName: String) {
+        val newQuantity = existingItem.foodOrderQuantity + foodOrderQuantity
+        deleteFromCart(existingItem.cartFoodId, userName)
+        dataSource.addToCard(
+            food.foodName,
+            food.foodImageName,
+            food.foodPrice,
             newQuantity,
             userName
         )
     }
 
-    private suspend fun addToCartExistFood(food: Food, yemek_siparis_adet: Int, userName: String) {
-        fds.addToCard(
-            food.yemek_adi,
-            food.yemek_resim_adi,
-            food.yemek_fiyat,
-            yemek_siparis_adet,
+    private suspend fun addToCartNewFood(food: Food, foodOrderQuantity: Int, userName: String) {
+        dataSource.addToCard(
+            food.foodName,
+            food.foodImageName,
+            food.foodPrice,
+            foodOrderQuantity,
             userName
         )
     }
