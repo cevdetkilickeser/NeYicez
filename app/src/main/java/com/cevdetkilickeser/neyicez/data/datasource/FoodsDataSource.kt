@@ -3,7 +3,7 @@ package com.cevdetkilickeser.neyicez.data.datasource
 import com.cevdetkilickeser.neyicez.data.model.CRUDAnswer
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.model.Food
-import com.cevdetkilickeser.neyicez.data.model.Orders
+import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.retrofit.ApiService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -49,15 +49,15 @@ class FoodsDataSource @Inject constructor(private var apiService: ApiService) {
         }
     }
 
-    suspend fun loadOrders(username: String): List<Orders> {
+    suspend fun loadOrders(username: String): List<Order> {
         val querySnapshot = db.collection("orders")
             .whereEqualTo("kullanici_adi", username)
             .get()
             .await()
 
-        val orders = mutableListOf<Orders>()
+        val orders = mutableListOf<Order>()
         for (document in querySnapshot.documents) {
-            val order = document.toObject(Orders::class.java)
+            val order = document.toObject(Order::class.java)
             if (order != null) {
                 orders.add(order)
             }
