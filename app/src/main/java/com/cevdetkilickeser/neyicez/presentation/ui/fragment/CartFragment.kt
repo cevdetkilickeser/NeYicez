@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.databinding.FragmentCartBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.CartAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.CartViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,23 +24,8 @@ class CartFragment : Fragment() {
     ): View {
         binding = FragmentCartBinding.inflate(inflater, container, false)
 
-        viewModel.cartList.observe(viewLifecycleOwner) {
-            val cartAdapter = CartAdapter(it, viewModel)
-            binding.rvCart.adapter = cartAdapter
-        }
-
-        viewModel.totalPrice.observe(viewLifecycleOwner) {
-            binding.textViewTotalPrcCart.text = it
-        }
-
-        binding.buttonApproveOrder.setOnClickListener {
-            approveOrder()
-            Snackbar.make(
-                it,
-                "Siparişiniz alındı. Siparişler menüsünden takip edebilirsiniz.",
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
+        initObservers()
+        initListeners()
 
         return binding.root
     }
@@ -57,7 +42,28 @@ class CartFragment : Fragment() {
         viewModel.loadCart()
     }
 
-    private fun approveOrder() {
-        viewModel.approveOrder()
+    private fun initListeners() {
+        binding.buttonApproveOrder.setOnClickListener {
+            viewModel.approveOrder()
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.cartList.observe(viewLifecycleOwner) {
+            val cartAdapter = CartAdapter(it, ::onClickDeleteButton, ::calculateCartItemTotal)
+            binding.rvCart.adapter = cartAdapter
+        }
+
+        viewModel.orderTotal.observe(viewLifecycleOwner) {
+            binding.textViewTotalPrcCart.text = it
+        }
+    }
+
+    private fun calculateCartItemTotal(foodPrice: Int, foodOrderQuantity: Int): Int {
+        return viewModel.calculateCartItemTotal(foodPrice, foodOrderQuantity)
+    }
+
+    private fun onClickDeleteButton(cart: Cart) {
+        viewModel.deleteFromCart(cart)
     }
 }
