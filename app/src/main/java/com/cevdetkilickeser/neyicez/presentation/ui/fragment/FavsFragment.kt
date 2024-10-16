@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.cevdetkilickeser.neyicez.databinding.FragmentFavsBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.FavsAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.FavsViewModel
@@ -16,13 +17,15 @@ class FavsFragment : Fragment() {
     private lateinit var binding: FragmentFavsBinding
     private lateinit var viewModel: FavsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentFavsBinding.inflate(inflater, container, false)
 
-        viewModel.favList.observe(viewLifecycleOwner){
-            val favsAdapter = FavsAdapter(it)
-            binding.rvFavs.adapter = favsAdapter
-        }
+        initObservers()
+        initListeners()
 
         return binding.root
     }
@@ -32,5 +35,32 @@ class FavsFragment : Fragment() {
 
         val tempViewModel: FavsViewModel by viewModels()
         viewModel = tempViewModel
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadFavs()
+    }
+
+    private fun initObservers() {
+
+        viewModel.favList.observe(viewLifecycleOwner) {
+            val favsAdapter = FavsAdapter(it)
+            binding.rvFavs.adapter = favsAdapter
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun initListeners() {
+        binding.imageButtonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }
