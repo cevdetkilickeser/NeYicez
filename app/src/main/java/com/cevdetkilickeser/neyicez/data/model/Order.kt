@@ -1,5 +1,5 @@
 package com.cevdetkilickeser.neyicez.data.model
 
-data class Orders (
-    val order: List<Cart>){
-}
+data class Order (
+    val cartList: List<Cart>
+)
