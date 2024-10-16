@@ -2,7 +2,7 @@ package com.cevdetkilickeser.neyicez.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cevdetkilickeser.neyicez.data.model.Orders
+import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.utils.UserInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class OrdersViewModel @Inject constructor(var crepo: CartRepository) : ViewModel(){
 
     val kullanici_adi = UserInfo.currentUser!!
-    val orderList = MutableLiveData<List<Orders>>()
+    val orderList = MutableLiveData<List<Order>>()
 
     init {
         loadOrders(kullanici_adi)
