@@ -42,6 +42,9 @@ class DetailFragment : Fragment() {
 
         val tempViewModel: DetailViewModel by viewModels()
         viewModel = tempViewModel
+
+        val bundle: DetailFragmentArgs by navArgs()
+        food = bundle.food
     }
 
     private fun initObservers() {
@@ -51,9 +54,32 @@ class DetailFragment : Fragment() {
                 textViewTotalPrcDetail.text = getString(R.string.price_text, food.foodPrice * qty)
             }
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.checkBoxFavDetail.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.checkBoxFavDetail.visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.isFav.observe(viewLifecycleOwner) { isFav ->
+            binding.checkBoxFavDetail.isChecked = isFav
+        }
     }
 
     private fun initListeners() {
+
+        binding.checkBoxFavDetail.setOnClickListener {
+            if (binding.checkBoxFavDetail.isChecked) {
+                viewModel.addToFavs(food)
+            } else {
+                viewModel.deleteFromFavs(food)
+            }
+        }
+
         binding.imageButtonBack.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -73,8 +99,8 @@ class DetailFragment : Fragment() {
     }
 
     private fun loadDetailPage() {
-        val bundle: DetailFragmentArgs by navArgs()
-        food = bundle.food
+
+        viewModel.favCheck(food)
 
         with(binding) {
             Glide.with(requireContext())
