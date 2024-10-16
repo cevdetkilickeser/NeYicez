@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.cevdetkilickeser.neyicez.data.model.Orders
+import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.databinding.CartCardBinding
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.OrdersViewModel
 
-class OrdersAdapter (var mContext: Context, var orderList: List<Orders>, var viewModel: OrdersViewModel) :
+class OrdersAdapter (var mContext: Context, var orderList: List<Order>, var viewModel: OrdersViewModel) :
 RecyclerView.Adapter<OrdersAdapter.OrdersCardHolder>() {
     inner class OrdersCardHolder(var binding: CartCardBinding) : RecyclerView.ViewHolder(binding.root)
 
