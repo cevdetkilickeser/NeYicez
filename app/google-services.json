@@ -1,103 +1,26 @@
 {
   "project_info": {
-    "project_number": "733612591449",
-    "firebase_url": "https://egitim-70078-default-rtdb.firebaseio.com",
-    "project_id": "egitim-70078",
-    "storage_bucket": "egitim-70078.appspot.com"
+    "project_number": "496623314829",
+    "project_id": "cevdet-5e219",
+    "storage_bucket": "cevdet-5e219.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:733612591449:android:86fbae823c185788daa448",
-        "android_client_info": {
-          "package_name": "com.cevdetkilickeser.fotografpaylasmafirebase"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "733612591449-ga9oc0jiemsg77r8qn74pn9p9pgcvsaf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.cevdetkilickeser.fotografpaylasmafirebase",
-            "certificate_hash": "b7cc79fba0e042ce7cde48bda875f99d2000bc7c"
-          }
-        },
-        {
-          "client_id": "733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCP0YfhjAxHgpuhMnApRR0dSW3ZfLHJNVY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:733612591449:android:26ff2a1c611b811cdaa448",
+        "mobilesdk_app_id": "1:496623314829:android:af478f922f99a477613fc4",
         "android_client_info": {
           "package_name": "com.cevdetkilickeser.neyicez"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCP0YfhjAxHgpuhMnApRR0dSW3ZfLHJNVY"
+          "current_key": "AIzaSyD6Oglh_Owew1pSDVxBqsXbdhR3ow85XXs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:733612591449:android:908324602af06fa7daa448",
-        "android_client_info": {
-          "package_name": "com.cevdetkilickeser.yemapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCP0YfhjAxHgpuhMnApRR0dSW3ZfLHJNVY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "733612591449-6fcu61o6q1khu3gva4d058qlj3i2g0v1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
