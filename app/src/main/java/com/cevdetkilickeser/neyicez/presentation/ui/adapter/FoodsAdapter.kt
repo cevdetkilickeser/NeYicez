@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cevdetkilickeser.neyicez.data.model.Food
-import com.cevdetkilickeser.neyicez.databinding.FoodsCardBinding
+import com.cevdetkilickeser.neyicez.databinding.ItemViewFoodBinding
 
-class FoodsAdapter (
+class FoodsAdapter(
     private val foodList: List<Food>,
     private val onFoodClickListener: (Food) -> Unit,
     private val onAddToCartClickListener: (Food) -> Unit
@@ -14,7 +14,7 @@ class FoodsAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = FoodsCardBinding.inflate(layoutInflater, parent, false)
+        val binding = ItemViewFoodBinding.inflate(layoutInflater, parent, false)
         return FoodsViewHolder(binding)
     }
 
