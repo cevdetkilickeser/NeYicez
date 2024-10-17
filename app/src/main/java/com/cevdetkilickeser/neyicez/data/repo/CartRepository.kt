@@ -7,7 +7,7 @@ import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.domain.FirebaseDBService
 import javax.inject.Inject
 
-class CartRepository  @Inject constructor (private val db: FirebaseDBService, private var dataSource: FoodsDataSource){
+class CartRepository  @Inject constructor (val db: FirebaseDBService, private var dataSource: FoodsDataSource){
 
     suspend fun loadCart(username: String) : List<Cart> = dataSource.loadCart(username)
 
@@ -49,16 +49,38 @@ class CartRepository  @Inject constructor (private val db: FirebaseDBService, pr
         )
     }
 
-    suspend fun approveOrder(cartList: List<Cart>, username: String) {
+    suspend fun approveOrder(cartList: List<Cart>, username: String, orderTotal: String) {
         for (cart in cartList) {
             deleteFromCart(cart.cartFoodId, cart.username)
         }
 
-        val order = Order(cartList, username)
+        val orderDate = "22.10.2023 15:50"
+        val order = Order(null, username, orderDate, cartList, orderTotal)
         db.firebaseDB.collection("orderCollection")
             .add(order)
             .addOnSuccessListener { }
             .addOnFailureListener { }
+    }
+
+    inline fun getOrders(username: String, crossinline onResult: (List<Order>?) -> Unit) {
+        db.firebaseDB.collection("orderCollection")
+            .whereEqualTo("username", username)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    onResult(null)
+                } else {
+                    val orderList = mutableListOf<Order>()
+                    for (document in documents) {
+                        val order = document.toObject(Order::class.java).copy(id = document.id)
+                        orderList.add(order)
+                    }
+                    onResult(orderList)
+                }
+            }
+            .addOnFailureListener {
+                onResult(null)
+            }
     }
 
 }
