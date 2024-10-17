@@ -1,4 +1,4 @@
-(Note : I continue to develope Profile screen. I will update the project.)
+(Note : I continue to develope Profile screen and authentication screens for Google and Facebook sign. I will update the project.)
 
 # NeYicez (Food Delivery App)
 NeYicez is an Android application developed using Kotlin and follows the MVVM (Model-View-ViewModel) architecture. The project utilizes Hilt for dependency injection, Retrofit with coroutines for network requests, Glide for image loading, and Firebase Authentication for user authentication.
