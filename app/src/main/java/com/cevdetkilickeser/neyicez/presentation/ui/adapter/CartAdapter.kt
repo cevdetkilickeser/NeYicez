@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cevdetkilickeser.neyicez.data.model.Cart
-import com.cevdetkilickeser.neyicez.databinding.CartCardBinding
+import com.cevdetkilickeser.neyicez.databinding.ItemViewCartBinding
 
 class CartAdapter(
     private var cartList: List<Cart>,
@@ -15,7 +15,7 @@ class CartAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = CartCardBinding.inflate(layoutInflater)
+        val binding = ItemViewCartBinding.inflate(layoutInflater)
         return CartViewHolder(binding)
     }
 
