@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="₺ 260"
                 android:textColor="@color/black"
                 android:textSize="34sp"
                 android:textStyle="bold" />
