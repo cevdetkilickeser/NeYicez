@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cevdetkilickeser.neyicez.data.model.Fav
-import com.cevdetkilickeser.neyicez.databinding.FavCardBinding
+import com.cevdetkilickeser.neyicez.databinding.ItemViewFavBinding
 
 class FavsAdapter(
     private var favList: List<Fav>
@@ -12,7 +12,7 @@ class FavsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = FavCardBinding.inflate(layoutInflater, parent,false)
+        val binding = ItemViewFavBinding.inflate(layoutInflater, parent, false)
         return FavsViewHolder(binding)
     }
 
