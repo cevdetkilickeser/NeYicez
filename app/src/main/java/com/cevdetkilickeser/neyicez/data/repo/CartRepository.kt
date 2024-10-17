@@ -5,6 +5,7 @@ import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.domain.FirebaseDBService
+import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
 class CartRepository  @Inject constructor (val db: FirebaseDBService, private var dataSource: FoodsDataSource){
@@ -49,13 +50,7 @@ class CartRepository  @Inject constructor (val db: FirebaseDBService, private va
         )
     }
 
-    suspend fun approveOrder(cartList: List<Cart>, username: String, orderTotal: String) {
-        for (cart in cartList) {
-            deleteFromCart(cart.cartFoodId, cart.username)
-        }
-
-        val orderDate = "22.10.2023 15:50"
-        val order = Order(null, username, orderDate, cartList, orderTotal)
+    fun approveOrder(order: Order) {
         db.firebaseDB.collection("orderCollection")
             .add(order)
             .addOnSuccessListener { }
@@ -65,6 +60,7 @@ class CartRepository  @Inject constructor (val db: FirebaseDBService, private va
     inline fun getOrders(username: String, crossinline onResult: (List<Order>?) -> Unit) {
         db.firebaseDB.collection("orderCollection")
             .whereEqualTo("username", username)
+            .orderBy("orderDate", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
