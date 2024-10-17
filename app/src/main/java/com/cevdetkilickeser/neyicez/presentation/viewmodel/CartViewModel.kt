@@ -1,13 +1,13 @@
 package com.cevdetkilickeser.neyicez.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,61 +18,57 @@ class CartViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var username = authService.auth.currentUser?.email.toString()
-    var cartList = MutableLiveData<List<Cart>>()
-    var totalPrice = MutableLiveData("₺ 0")
 
-    init {
-        loadCart()
-    }
+    private val _cartList = MutableLiveData<List<Cart>>()
+    val cartList: LiveData<List<Cart>> = _cartList
+
+    private val _orderTotal = MutableLiveData<String>()
+    val orderTotal: LiveData<String> = _orderTotal
 
     fun loadCart() {
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch {
             try {
-                cartList.value = cartRepo.loadCart(username)
-                calculateTotalPrice(cartList.value!!)
+                _cartList.value = cartRepo.loadCart(username)
+                calculateOrderTotal(_cartList.value!!)
             } catch (e: Exception) {
-                totalPrice.value = "₺ 0"
+                _orderTotal.value = "₺ 0"
             }
         }
     }
 
-    fun deleteFromCart(cartFoodId: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
-            if (cartList.value!!.size == 1) {
-                cartRepo.deleteFromCart(cartFoodId, username)
-                cartList.value = emptyList()
+    fun deleteFromCart(cart: Cart) {
+        viewModelScope.launch {
+            if (_cartList.value!!.size == 1) {
+                cartRepo.deleteFromCart(cart.cartFoodId, username)
+                _cartList.value = emptyList()
             } else {
-                cartRepo.deleteFromCart(cartFoodId, username)
+                cartRepo.deleteFromCart(cart.cartFoodId, username)
             }
             loadCart()
         }
     }
 
-    private fun calculateTotalPrice(cartList: List<Cart>) {
+    private fun calculateOrderTotal(cartList: List<Cart>) {
         var totalPrc = 0
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch {
             cartList.forEach {
                 totalPrc += (it.foodOrderQuantity * it.foodPrice)
             }
-            totalPrice.value = "₺ $totalPrc"
+            _orderTotal.value = "₺ $totalPrc"
         }
     }
 
     fun approveOrder() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val approveList = cartList.value
-            val orderList = ArrayList<Cart>()
-            if (!approveList.isNullOrEmpty()) {
-                approveList.forEach {
-                    orderList.add(it)
-                    cartRepo.deleteFromCart(it.cartFoodId, username)
-                }
-                cartRepo.approveOrder(orderList)
-                cartList.value = emptyList()
-                totalPrice.value = "₺ 0"
+        viewModelScope.launch {
+            if (_cartList.value!!.isNotEmpty()) {
+                cartRepo.approveOrder(_cartList.value!!, username)
+                _cartList.value = emptyList()
+                _orderTotal.value = "₺ 0"
             }
         }
     }
 
-
+    fun calculateCartItemTotal(foodPrice: Int, foodOrderQuantity: Int): Int {
+        return foodPrice * foodOrderQuantity
+    }
 }
