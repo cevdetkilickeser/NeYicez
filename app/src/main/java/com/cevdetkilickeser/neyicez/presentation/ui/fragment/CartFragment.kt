@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.cevdetkilickeser.neyicez.data.model.Cart
 import com.cevdetkilickeser.neyicez.databinding.FragmentCartBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.CartAdapter
@@ -43,6 +44,11 @@ class CartFragment : Fragment() {
     }
 
     private fun initListeners() {
+
+        binding.imageButtonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.buttonApproveOrder.setOnClickListener {
             viewModel.approveOrder()
         }
