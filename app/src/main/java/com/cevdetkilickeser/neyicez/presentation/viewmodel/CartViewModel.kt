@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.data.model.Cart
+import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,7 +62,11 @@ class CartViewModel @Inject constructor(
     fun approveOrder() {
         viewModelScope.launch {
             if (_cartList.value!!.isNotEmpty()) {
-                cartRepo.approveOrder(_cartList.value!!, username, _orderTotal.value!!)
+                for (cart in cartList.value!!) {
+                    cartRepo.deleteFromCart(cart.cartFoodId, cart.username)
+                }
+                val order = Order(null, username, cartList.value!!, orderTotal.value!!)
+                cartRepo.approveOrder(order)
                 _cartList.value = emptyList()
                 _orderTotal.value = "₺ 0"
             }
