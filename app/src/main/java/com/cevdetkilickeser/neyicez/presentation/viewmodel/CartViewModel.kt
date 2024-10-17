@@ -61,7 +61,7 @@ class CartViewModel @Inject constructor(
     fun approveOrder() {
         viewModelScope.launch {
             if (_cartList.value!!.isNotEmpty()) {
-                cartRepo.approveOrder(_cartList.value!!, username)
+                cartRepo.approveOrder(_cartList.value!!, username, _orderTotal.value!!)
                 _cartList.value = emptyList()
                 _orderTotal.value = "₺ 0"
             }
