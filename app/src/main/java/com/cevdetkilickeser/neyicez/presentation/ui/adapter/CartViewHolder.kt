@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cevdetkilickeser.neyicez.R
 import com.cevdetkilickeser.neyicez.data.model.Cart
-import com.cevdetkilickeser.neyicez.databinding.CartCardBinding
+import com.cevdetkilickeser.neyicez.databinding.ItemViewCartBinding
 
-class CartViewHolder(var binding: CartCardBinding) : RecyclerView.ViewHolder(binding.root) {
+class CartViewHolder(var binding: ItemViewCartBinding) : RecyclerView.ViewHolder(binding.root) {
     inline fun bind(
         cart: Cart,
         crossinline onClickDeleteButton: (Cart) -> Unit,
