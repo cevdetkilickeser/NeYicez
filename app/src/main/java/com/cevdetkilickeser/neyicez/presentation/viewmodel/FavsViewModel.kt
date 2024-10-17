@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.data.model.Fav
+import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
 import com.cevdetkilickeser.neyicez.data.repo.FavRepository
 import com.cevdetkilickeser.neyicez.domain.AuthService
@@ -33,6 +34,12 @@ class FavsViewModel @Inject constructor(
                 _favList.value = favList ?: emptyList()
                 _isLoading.value = false
             }
+        }
+    }
+
+    fun addToCart(food: Food) {
+        viewModelScope.launch {
+            cartRepo.addToCart(food, 1, username)
         }
     }
 }

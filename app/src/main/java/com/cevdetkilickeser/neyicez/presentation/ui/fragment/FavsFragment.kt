@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.databinding.FragmentFavsBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.FavsAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.FavsViewModel
@@ -45,7 +46,7 @@ class FavsFragment : Fragment() {
     private fun initObservers() {
 
         viewModel.favList.observe(viewLifecycleOwner) {
-            val favsAdapter = FavsAdapter(it)
+            val favsAdapter = FavsAdapter(it, ::onAddToCartClickListener)
             binding.rvFavs.adapter = favsAdapter
         }
 
@@ -62,5 +63,9 @@ class FavsFragment : Fragment() {
         binding.imageButtonBack.setOnClickListener {
             onClickBackButton(this)
         }
+    }
+
+    private fun onAddToCartClickListener(food: Food) {
+        viewModel.addToCart(food)
     }
 }

@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cevdetkilickeser.neyicez.data.model.Fav
+import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.databinding.ItemViewFavBinding
 
 class FavsAdapter(
-    private var favList: List<Fav>
+    private var favList: List<Fav>,
+    private val onAddToCartClickListener: (Food) -> Unit
 ) : RecyclerView.Adapter<FavsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavsViewHolder {
@@ -21,6 +23,6 @@ class FavsAdapter(
     }
 
     override fun onBindViewHolder(holder: FavsViewHolder, position: Int) {
-        holder.bind(favList[position])
+        holder.bind(favList[position], onAddToCartClickListener)
     }
 }
