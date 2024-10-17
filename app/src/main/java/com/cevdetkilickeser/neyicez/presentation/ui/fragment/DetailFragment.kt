@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.cevdetkilickeser.neyicez.R
 import com.cevdetkilickeser.neyicez.data.model.Food
 import com.cevdetkilickeser.neyicez.databinding.FragmentDetailBinding
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.DetailViewModel
+import com.cevdetkilickeser.neyicez.utils.onClickBackButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -81,7 +81,7 @@ class DetailFragment : Fragment() {
         }
 
         binding.imageButtonBack.setOnClickListener {
-            findNavController().popBackStack()
+            onClickBackButton(this)
         }
 
         binding.buttonDecrease.setOnClickListener {

@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.cevdetkilickeser.neyicez.databinding.FragmentFavsBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.FavsAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.FavsViewModel
+import com.cevdetkilickeser.neyicez.utils.onClickBackButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,7 +60,7 @@ class FavsFragment : Fragment() {
 
     private fun initListeners() {
         binding.imageButtonBack.setOnClickListener {
-            findNavController().popBackStack()
+            onClickBackButton(this)
         }
     }
 }

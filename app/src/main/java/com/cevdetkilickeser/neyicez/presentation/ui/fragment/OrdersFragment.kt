@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.cevdetkilickeser.neyicez.databinding.FragmentOrdersBinding
 import com.cevdetkilickeser.neyicez.presentation.ui.adapter.OrdersAdapter
 import com.cevdetkilickeser.neyicez.presentation.viewmodel.OrdersViewModel
+import com.cevdetkilickeser.neyicez.utils.onClickBackButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +27,7 @@ class OrdersFragment : Fragment() {
         binding = FragmentOrdersBinding.inflate(inflater, container, false)
 
         initObservers()
+        initListeners()
 
         return binding.root
     }
@@ -41,6 +44,12 @@ class OrdersFragment : Fragment() {
         viewModel.loadOrders()
     }
 
+    private fun initListeners() {
+        binding.imageButtonBack.setOnClickListener {
+            onClickBackButton(this)
+        }
+    }
+
     private fun initObservers() {
         viewModel.orderList.observe(viewLifecycleOwner) {
             val ordersAdapter = OrdersAdapter(it)
@@ -53,9 +62,10 @@ class OrdersFragment : Fragment() {
                         parent: RecyclerView,
                         state: RecyclerView.State
                     ) {
-                        outRect.set(0, 0, 0, 32)
+                        outRect.set(0, 32, 0, 32)
                     }
                 })
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         }
 
