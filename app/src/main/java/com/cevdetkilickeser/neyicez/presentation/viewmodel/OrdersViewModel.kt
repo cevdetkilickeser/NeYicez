@@ -1,30 +1,37 @@
 package com.cevdetkilickeser.neyicez.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cevdetkilickeser.neyicez.data.model.Order
 import com.cevdetkilickeser.neyicez.data.repo.CartRepository
-import com.cevdetkilickeser.neyicez.utils.UserInfo
+import com.cevdetkilickeser.neyicez.domain.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OrdersViewModel @Inject constructor(var crepo: CartRepository) : ViewModel(){
+class OrdersViewModel @Inject constructor(
+    authService: AuthService,
+    private var cartRepo: CartRepository
+) : ViewModel() {
 
-    val kullanici_adi = UserInfo.currentUser!!
-    val orderList = MutableLiveData<List<Order>>()
+    val username = authService.auth.currentUser?.email.toString()
 
-    init {
-        loadOrders(kullanici_adi)
-    }
+    private val _orderList = MutableLiveData<List<Order>>()
+    val orderList: LiveData<List<Order>> = _orderList
 
-    fun loadOrders(kullanici_adi:String){
-        CoroutineScope(Dispatchers.Main).launch{
-            orderList.value = crepo.loadOrders(kullanici_adi)
+    private var _isLoading = MutableLiveData<Boolean>()
+    var isLoading: LiveData<Boolean> = _isLoading
+
+    fun loadOrders() {
+        viewModelScope.launch {
+            cartRepo.getOrders(username) { orderList ->
+                _orderList.value = orderList ?: emptyList()
+                _isLoading.value = false
+            }
+
         }
-
     }
 }
