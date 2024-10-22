@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavsFragment : Fragment() {
     private lateinit var binding: FragmentFavsBinding
-    private lateinit var viewModel: FavsViewModel
+    private val viewModel: FavsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +29,6 @@ class FavsFragment : Fragment() {
         initListeners()
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val tempViewModel: FavsViewModel by viewModels()
-        viewModel = tempViewModel
     }
 
     override fun onResume() {

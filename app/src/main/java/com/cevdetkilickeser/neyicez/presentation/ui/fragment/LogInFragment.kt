@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LogInFragment : Fragment() {
 
     private lateinit var binding: FragmentLogInBinding
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,13 +32,6 @@ class LogInFragment : Fragment() {
         initListeners()
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val tempViewModel: LoginViewModel by viewModels()
-        viewModel = tempViewModel
     }
 
     private fun initObservers() {

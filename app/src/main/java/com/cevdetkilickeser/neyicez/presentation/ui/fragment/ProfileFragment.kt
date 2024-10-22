@@ -33,10 +33,10 @@ class ProfileFragment : Fragment() {
     private lateinit var galleryPermission: String
     private lateinit var kullanici_adi: String
     private lateinit var info: Info
-    private var choosenImage : Uri? = null
-    private var choosenBitmap : Bitmap? = null
+    private var chosenImage : Uri? = null
+    private var chosenBitmap : Bitmap? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         database.collection("NeYicezProfil").document(kullanici_adi).get().addOnSuccessListener {
@@ -49,7 +49,7 @@ class ProfileFragment : Fragment() {
                 info = Info("","","")
             }
         }.addOnFailureListener {
-            Log.e("şş",it.localizedMessage)
+            it.localizedMessage?.let { it1 -> Log.e("şş", it1) }
         }
 
         binding.buttonUpdate.setOnClickListener {
@@ -85,8 +85,8 @@ class ProfileFragment : Fragment() {
         val referance = storage.reference
         val imageReferance = referance.child("ProfilNeYicez").child(kullanici_adi)
 
-        if (choosenImage != null){
-            imageReferance.putFile(choosenImage!!).addOnSuccessListener { taskSnapshot ->
+        if (chosenImage != null){
+            imageReferance.putFile(chosenImage!!).addOnSuccessListener { taskSnapshot ->
                 val loadedImageReferance = storage.reference.child("ProfilNeYicez").child(kullanici_adi)
                 loadedImageReferance.downloadUrl.addOnSuccessListener { uri ->
                     val downloadUrl = uri.toString()
@@ -106,7 +106,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun onClickImage(){
+    private fun onClickImage(){
         if (ContextCompat.checkSelfPermission(requireContext(), galleryPermission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(galleryPermission),1)
         }else{
@@ -115,7 +115,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun updateDatabase(){
+    private fun updateDatabase(){
         database.collection("NeYicezProfil").document(kullanici_adi).set(info).addOnCompleteListener { task ->
             if (task.isSuccessful){
                 Log.e("fatal","database updated")
@@ -125,6 +125,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -139,13 +140,14 @@ class ProfileFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 2 && resultCode == Activity.RESULT_OK && data != null){
-            choosenImage = data.data
-            if (choosenImage != null){
-                val source = ImageDecoder.createSource(requireActivity().contentResolver,choosenImage!!)
-                choosenBitmap = ImageDecoder.decodeBitmap(source)
-                binding.ivProfilePhoto.setImageBitmap(choosenBitmap)
+            chosenImage = data.data
+            if (chosenImage != null){
+                val source = ImageDecoder.createSource(requireActivity().contentResolver,chosenImage!!)
+                chosenBitmap = ImageDecoder.decodeBitmap(source)
+                binding.ivProfilePhoto.setImageBitmap(chosenBitmap)
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

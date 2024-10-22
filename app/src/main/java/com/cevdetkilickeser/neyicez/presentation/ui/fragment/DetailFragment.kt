@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
-    private lateinit var viewModel: DetailViewModel
+    private val viewModel: DetailViewModel by viewModels()
     private lateinit var food: Food
 
     override fun onCreateView(
@@ -39,9 +39,6 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val tempViewModel: DetailViewModel by viewModels()
-        viewModel = tempViewModel
 
         val bundle: DetailFragmentArgs by navArgs()
         food = bundle.food

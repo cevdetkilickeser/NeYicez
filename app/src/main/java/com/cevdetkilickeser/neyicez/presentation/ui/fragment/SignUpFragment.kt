@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
-    private lateinit var viewModel: SignupViewModel
+    private val viewModel: SignupViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,13 +31,6 @@ class SignUpFragment : Fragment() {
         initListeners()
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val tempViewModel: SignupViewModel by viewModels()
-        viewModel = tempViewModel
     }
 
     private fun initObservers() {

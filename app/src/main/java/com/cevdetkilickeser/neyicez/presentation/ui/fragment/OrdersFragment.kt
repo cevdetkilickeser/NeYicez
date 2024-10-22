@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OrdersFragment : Fragment() {
     private lateinit var binding: FragmentOrdersBinding
-    private lateinit var viewModel: OrdersViewModel
+    private val viewModel: OrdersViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,13 +30,6 @@ class OrdersFragment : Fragment() {
         initListeners()
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val tempViewModel: OrdersViewModel by viewModels()
-        viewModel = tempViewModel
     }
 
     override fun onResume() {

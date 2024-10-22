@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
-    private lateinit var viewModel: CartViewModel
+    private val viewModel: CartViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +29,6 @@ class CartFragment : Fragment() {
         initListeners()
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val tempViewModel: CartViewModel by viewModels()
-        viewModel = tempViewModel
     }
 
     override fun onResume() {

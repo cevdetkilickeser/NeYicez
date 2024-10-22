@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,13 +44,6 @@ class HomeFragment : Fragment() {
         })
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val tempViewModel: HomeViewModel by viewModels()
-        viewModel = tempViewModel
     }
 
     private fun onFoodClickListener(food: Food) {
